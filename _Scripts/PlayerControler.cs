@@ -20,6 +20,7 @@ public class PlayerControler : MonoBehaviour
 	//Player Dater
 	static public int PlayerHealth; // Defined at 50 in the Editor
 	public Rigidbody2D Player;		// Holds the Player(Kevin) RigidBody
+	public bool FacingRight = true; 
 
 	// -- Movement Data
 	public float Speed;		//Movement speed: Set to 5f in the editor
@@ -29,9 +30,10 @@ public class PlayerControler : MonoBehaviour
 	public Transform GroundCheck; //Holds the GroundCheckTransform Object attached to the Player (defined in editor)
 	public LayerMask GroundLayer; //Holds the layer to check if grounded
 
+	public float JumpHeight;
 	private bool Jumped = false; 	//Bool to determine if the Player has jumped (to disable infinite jump)
 	static public bool isGrounded = true; //Bool to determine if the Player is grounded
-	static public float JumpVal;			//Float to store the jump force
+	static public float JumpVal = 100f;			//Float to store the jump force
 
 
 	//Debug info 
@@ -39,6 +41,9 @@ public class PlayerControler : MonoBehaviour
 	static public Vector2 Position;
 	// JumpVal 
 	//isGrounded
+
+	//Check for Velocity (Debuging)
+	static public Vector2 vel;
 
 
 	// Use this for initialization
@@ -51,43 +56,43 @@ public class PlayerControler : MonoBehaviour
 
 	void FixedUpdate()
 	{
+		//Check for Velocity (Debuging)
+		vel = Player.velocity;
+
 		//check grounded
 		Position = Player.transform.position;
-	}
 
-	// Update is called once per frame
-	void Update () 
-	{
-
-		isGrounded = Physics2D.OverlapCircle (GroundCheck.position, 0.01f, GroundLayer);
-		Vector2 Grav = Player.velocity;
-		Grav.y = -Gravity;
-		Player.velocity = Grav;
-		//Movement 
-		//float moveHorizontal = Input.GetAxisRaw ("Horizontal");
-		//float moveVertical = Input.GetAxisRaw ("Vertical");
-	
-		//Vector2 movement = new Vector2 (moveHorizontal, moveVertical);
-		//Player.AddForce (movement * Speed);
+		// Player Movements
 		if (Input.GetKey (KeyCode.D)) 
 		{
 			Vector2 Pos = Player.transform.position;
 			Pos.x += 10 * Time.deltaTime;
+			FacingRight = true;
 			Player.transform.position = Pos;
 		}
 		if (Input.GetKey (KeyCode.A)) 
 		{
 			Vector2 Pos = Player.transform.position;
 			Pos.x -= 10 * Time.deltaTime;
+			FacingRight = false;
 			Player.transform.position = Pos;
 		}
-		//Jump
 
-		/*if (Input.GetKey (KeyCode.W)) 
+		//Jump
+		if(Input.GetKeyDown (KeyCode.W) && isGrounded)
 		{
+			Player.velocity = new Vector2 (0, 0);
 			Player.AddForce (new Vector2 (0, JumpVal));	
 			Jumped = true;
-		}*/
+		}
+	}
+
+	// Update is called once per frame
+	void Update () 
+	{
+		isGrounded = Physics2D.Linecast(transform.position, GroundCheck.position, 1 << LayerMask.NameToLayer("Ground"));
+		vel = Player.velocity;
+		FlipSprite ();
 	}
 
 	void OnCollisionStay2D(Collision2D coll)
@@ -96,6 +101,19 @@ public class PlayerControler : MonoBehaviour
 		if (coll.gameObject.layer == 8 && (Input.GetKey (KeyCode.W))) 
 		{
 			Player.AddForce(new Vector2 (0, JumpVal));
+		}
+	}
+
+	void FlipSprite()
+	{
+		if (FacingRight == true) 
+		{
+			transform.localScale = new Vector2 (1, 1);
+		} 
+
+		if(FacingRight == false)
+		{
+			transform.localScale = new Vector2 (-1, 1);
 		}
 	}
 }

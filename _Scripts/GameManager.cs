@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour
 
 	private bool GameOver = false;
 
+	public int blick = 0;
+
 	// Use this for initialization
 	void Start () 
 	{
@@ -30,6 +32,7 @@ public class GameManager : MonoBehaviour
 	void Update () 
 	{
 		UpdateText ();	
+		blick = PlayerControler.block;
 	}
 
 	void UpdateText()
@@ -41,9 +44,9 @@ public class GameManager : MonoBehaviour
 	
 		Health.text = "HP: " + PlayerControler.PlayerHealth;
 		Standing.text = "Current Block: " + PlayerControler.block; // Layer Colision Debug code
-	
+
 		// Kevin debug code
 		//Pos.text
-		info.text = "Kevin: Pos: " + PlayerControler.Position + ", JumpVal: " + PlayerControler.JumpVal + ", Grounded: " + PlayerControler.isGrounded;
+		info.text = "Kevin: Pos: " + PlayerControler.Position + ", JumpVal: " + PlayerControler.JumpVal + ", Grounded: " + PlayerControler.isGrounded + ", Velocity: " + "X " + PlayerControler.vel.x + ", Y: " + PlayerControler.vel.y;
 	}
 }
