@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 9d7a388fc489ed74988292231dc21894
-timeCreated: 1513693034
+guid: dbe0c0ce0c5b4e343b7a1e8526d0d6d2
+timeCreated: 1514290060
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName: {}
@@ -92,15 +92,19 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+  - buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
   spriteSheet:
     serializedVersion: 2
     sprites: []
-    outline:
-    - - {x: -32, y: 32}
-      - {x: -32, y: 32}
-      - {x: -32, y: -32}
-      - {x: 32, y: -32}
-      - {x: 32, y: 32}
+    outline: []
     physicsShape: []
   spritePackingTag: 
   userData: 
